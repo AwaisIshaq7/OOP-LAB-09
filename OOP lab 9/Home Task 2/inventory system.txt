@@ -1,0 +1,94 @@
+package javaone;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+public class BookInventorySystem {
+
+    private List<Book> inventory;
+    private final String fileName = "inventory.txt"; // Name of the file to store inventory data
+
+    public BookInventorySystem() {
+        inventory = new ArrayList<>();
+        loadInventoryFromFile(); // Load inventory data from file during application startup
+    }
+
+    // Method to add a new book to the inventory
+    public void addBook(Book book) {
+        inventory.add(book);
+    }
+
+    // Method to remove a book from the inventory
+    public boolean removeBook(String title) {
+        Iterator<Book> iterator = inventory.iterator();
+        while (iterator.hasNext()) {
+            Book book = iterator.next();
+            if (book.getTitle().equalsIgnoreCase(title)) {
+                iterator.remove();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Method to update details of a book in the inventory
+    public boolean updateBook(String title, Book updatedBook) {
+        for (int i = 0; i < inventory.size(); i++) {
+            if (inventory.get(i).getTitle().equalsIgnoreCase(title)) {
+                inventory.set(i, updatedBook);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Method to search for books by title or author
+    public List<Book> searchBook(String keyword) {
+        List<Book> searchResults = new ArrayList<>();
+        for (Book book : inventory) {
+            if (book.getTitle().toLowerCase().contains(keyword.toLowerCase()) ||
+                    book.getAuthor().toLowerCase().contains(keyword.toLowerCase())) {
+                searchResults.add(book);
+            }
+        }
+        return searchResults;
+    }
+
+    // Method to load inventory data from file during application startup
+    private void loadInventoryFromFile() {
+        // Implement code to load inventory from file
+    }
+
+    // Method to save updated inventory data back to the file when the application exits
+    public void saveInventoryToFile() {
+        // Implement code to save inventory to file
+    }
+
+    // Method to obtain an iterator over the book inventory
+    public Iterator<Book> iterator() {
+        return inventory.iterator();
+    }
+
+    // Method to display all books in the inventory using the iterator
+    public void displayAllBooks() {
+        Iterator<Book> iterator = iterator();
+        System.out.println("Inventory:");
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+    }
+
+    public static void main(String[] args) {
+        // Create an instance of BookInventorySystem
+        BookInventorySystem inventorySystem = new BookInventorySystem();
+
+        // Add some books to the inventory
+        inventorySystem.addBook(new Book("Title 1", "Author 1", 10.99, 5));
+        inventorySystem.addBook(new Book("Title 2", "Author 2", 8.50, 7));
+        inventorySystem.addBook(new Book("Title 3", "Author 3", 12.75, 3));
+
+        // Display all books in the inventory
+        inventorySystem.displayAllBooks();
+    }
+}
